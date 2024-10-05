@@ -1,29 +1,6 @@
-/* const movies = [
-	{
-		title: "The Shawshank Redemption",
-		year: 1994,
-		director: "Frank Darabont",
-		duration: "2h 22min",
-		genre: ["Crime", "Drama"],
-		score: 9.3,
-	},
-	{
-		title: "The Godfather",
-		year: 1972,
-		director: "Francis Ford Coppola",
-		duration: "2h 55min",
-		genre: ["Crime", "Drama"],
-		score: 9.2,
-	},
-	{
-		title: "The Godfather: Part II",
-		year: 1974,
-		director: "Francis Ford Coppola",
-		duration: "3h 22min",
-		genre: ["Crime", "Drama"],
-		score: ,
-	},
-]; */
+// use this to import data.js and run in node
+// co movies = require('./data.js');
+// in data.js change first line from "const movies = [" to "const level1 = require('./level1');"
 
 // Iteration 1: All directors? - Get the array of all directors.
 // _Bonus_: It seems some of the directors had directed multiple movies so they will pop up multiple times in the array of directors.
@@ -110,13 +87,13 @@ const movies5 = [
 
 function orderByYear(moviesArray) {
 	//create a copy of the moviesArray Array with the name orderedMovies
-    const orderedMovies = moviesArray.map((movie) => {
+	const orderedMovies = moviesArray.map((movie) => {
 		return movie;
 	});
-    //sort the orderedMovies Array first by year asc, if same year in alphabetical order based on title
+	//sort the orderedMovies Array first by year asc, if same year in alphabetical order based on title
 	orderedMovies.sort((a, b) => {
 		//nested sorting comparison that make a second comparison if the year is the same
-        if (a.year < b.year) {
+		if (a.year < b.year) {
 			return -1;
 		} else if (a.year > b.year) {
 			return 1;
@@ -136,7 +113,26 @@ function orderByYear(moviesArray) {
 console.log(orderByYear(movies5));
 
 // Iteration 6: Alphabetic Order - Order by title and print the first 20 titles
-function orderAlphabetically(moviesArray) {}
+function orderAlphabetically(moviesArray) {
+	// create a copy of the original moviesArray
+	const orderedMovies = moviesArray.map((movie) => {
+		return movie;
+	});
+	// sort the movies in alphabetical order using the "en" locale
+	orderedMovies.sort((a, b) => {
+		return a.title.localeCompare(b.title, "en", { sensitivity: "base" });
+	});
+	// declare a variable with an empty array to be used to push title values
+	const firstTwentyMovies = [];
+	// for the first 20 movies in the orderedMovies Array push the title in incoming order into a new array
+	orderedMovies.forEach((movie, index) => {
+		if (index < 20) {
+			firstTwentyMovies.push(movie.title);
+		}
+	});
+	return firstTwentyMovies;
+}
+// console.log(orderAlphabetically(movies.movies));
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes
 function turnHoursToMinutes(moviesArray) {}
