@@ -48,23 +48,25 @@ function howManyMovies(moviesArray) {
 
 // Iteration 3: All scores average - Get the average of all scores with 2 decimals
 function scoresAverage(moviesArray) {
+	// Return 0 if Array is empty
 	if (moviesArray.length === 0) {
 		return 0;
 	}
-
-	const totalScore = moviesArray.reduce((acc, curr) => {
-		if (curr.score) {
-			return acc + curr.score;
+	// Use the method reduce() to sum all scores having a value, if not having value or not existing sum 0
+	const totalScore = moviesArray.reduce((acc, cur) => {
+		if (cur.score) {
+			return acc + cur.score;
 		} else {
 			return acc + 0;
 		}
 	}, 0);
-	const scoresAverage = totalScore / moviesArray.length;
-	const scoresAverageTwoDecimals = +scoresAverage.toFixed(2);
-	return scoresAverageTwoDecimals; //no encontramos la solucion
+
+	// return the average score for all the movies in the moviesArray Array
+	return +(totalScore / moviesArray.length).toFixed(2);
 }
 //console.log(scoresAverage(movies));
 // Iteration 4: Drama movies - Get the average of Drama Movies
+
 const movies4 = [
 	{ genre: ["Drama"], score: 8 },
 	{ genre: ["Romance"], score: 9 },
@@ -72,28 +74,66 @@ const movies4 = [
 ];
 
 function dramaMoviesScore(moviesArray) {
+	// Create new Array only including Drama Movies
 	const dramaMovies = moviesArray.filter((movie) => {
 		return movie.genre.includes("Drama");
 	});
+	// Return 0 if Array is empty
 	if (dramaMovies.length === 0) {
 		return 0;
 	}
-	const totalScore = dramaMovies.reduce((acc, curr) => {
-		if (curr.score) {
-			return acc + curr.score;
+	// Use the method reduce() to sum all scores having a value
+	const totalScore = dramaMovies.reduce((acc, cur) => {
+		if (cur.score) {
+			return acc + cur.score;
 		} else {
 			return acc + 0;
 		}
 	}, 0);
 
-	const scoresAverage = totalScore / dramaMovies.length;
-	const scoresAverageTwoDecimals = +scoresAverage.toFixed(2);
-	return scoresAverageTwoDecimals; //no encontramos la solucion
+	// return the average score for all the movies in the dramaMovies Array
+	return +(totalScore / dramaMovies.length).toFixed(2);
+
+	// other possible rounding methods:
+	// 1: Math.round(num * 100) / 100
+	// 2: Math.round((num + Number.EPSILON) * 100) / 100
 }
 console.log(dramaMoviesScore(movies4));
 
 // Iteration 5: Ordering by year - Order by year, ascending (in growing order)
-function orderByYear(moviesArray) {}
+
+const movies5 = [
+	{ title: "abc", year: 2002 },
+	{ title: "bac", year: 1982 },
+	{ title: "aab", year: 1982 },
+];
+
+function orderByYear(moviesArray) {
+	//create a copy of the moviesArray Array with the name orderedMovies
+    const orderedMovies = moviesArray.map((movie) => {
+		return movie;
+	});
+    //sort the orderedMovies Array first by year asc, if same year in alphabetical order based on title
+	orderedMovies.sort((a, b) => {
+		//nested sorting comparison that make a second comparison if the year is the same
+        if (a.year < b.year) {
+			return -1;
+		} else if (a.year > b.year) {
+			return 1;
+		} else {
+			// a.year === b.year
+			if (a.title < b.title) {
+				return -1;
+			} else if (a.title > b.title) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+	});
+	return orderedMovies;
+}
+console.log(orderByYear(movies5));
 
 // Iteration 6: Alphabetic Order - Order by title and print the first 20 titles
 function orderAlphabetically(moviesArray) {}
