@@ -1,5 +1,5 @@
 // use this to import data.js and run in node
-// co movies = require('./data.js');
+//const movies = require("./data.js");
 // in data.js change first line from "const movies = [" to "const level1 = require('./level1');"
 
 // Iteration 1: All directors? - Get the array of all directors.
@@ -135,7 +135,39 @@ function orderAlphabetically(moviesArray) {
 // console.log(orderAlphabetically(movies.movies));
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes
-function turnHoursToMinutes(moviesArray) {}
+function turnHoursToMinutes(moviesArray) {
+	// create a copy of the original moviesArray
+	const durationInMinutesArray = moviesArray.map((movie) => {
+		//convert movie.duration hours to minutes
+		/* const hoursInMinutes = Math.floor(Number(movie.duration[0]) * 60); */
+		//extract the minutes from the movie.duration
+		/* let minutes = 0;
+		if (movie.duration.length === 7) {
+			minutes = Number(movie.duration[3]);
+		} else if (movie.duration.length === 8) {
+			minutes = Number(movie.duration[3] + movie.duration[4]);
+		} */
+		//other solutions for extracting numbers from a string https://www.geeksforgeeks.org/extract-a-number-from-a-string-using-javascript/
+		// using regex to extract numbers into separated strings seems to be more efficient and clear in this case
+		const hoursAndMinutesArray = movie.duration.match(/\d+/g);
+		const hoursInMinutes = Math.floor(Number(hoursAndMinutesArray[0]) * 60);
+		let minutes = 0;
+		if (hoursAndMinutesArray.length > 1) {
+			minutes = Number(hoursAndMinutesArray[1]);
+		}
+
+		const durationInMinutes = hoursInMinutes + minutes;
+		// this takes the original object in each iteration and keeps everything but duration as before and duration is changed to the new value
+		return { ...movie, duration: durationInMinutes };
+
+		// if you would have done like this "return movie.duration = 88" the array would have been replaced with objects with only duration property = 88
+	});
+	return durationInMinutesArray;
+}
+console.log(turnHoursToMinutes(movies.movies));
+
 
 // BONUS - Iteration 8: Best yearly score average - Best yearly score average
-function bestYearAvg(moviesArray) {}
+function bestYearAvg(moviesArray) {
+    
+}
