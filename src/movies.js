@@ -164,10 +164,95 @@ function turnHoursToMinutes(moviesArray) {
 	});
 	return durationInMinutesArray;
 }
-console.log(turnHoursToMinutes(movies.movies));
+//console.log(turnHoursToMinutes(movies.movies));
 
+// testdata to debug
+const newMoviesArr = [
+	{ year: 2000, score: 9 },
+	{ year: 2000, score: 8 },
+	{ year: 1978, score: 10 },
+	{ year: 1978, score: 7 },
+];
 
 // BONUS - Iteration 8: Best yearly score average - Best yearly score average
 function bestYearAvg(moviesArray) {
-    
+    // return null if moviesArray is empty
+    if (moviesArray.length === 0) {
+        return null;
+    }
+    // create a copy of the incoming array
+	const mappedArray = moviesArray.map((movie) => {
+		return movie;
+	});
+    // declare a variable with an empty array to be usee in the next forEach loop
+	const totalFilmsAndScorePerYear = [];
+	mappedArray.forEach((movie) => {
+        // find the index of the incoming movie year in the array that is building upp - totalFilmsAndScorePerYear
+        let yearIndex = totalFilmsAndScorePerYear.findIndex((i) => {
+           return i["year"] === movie.year
+        } );
+
+        // if incoming year not yet is included in totalFilmsAndScorePerYear, add the year with score and first count
+		if (yearIndex < 0) {
+			totalFilmsAndScorePerYear.push({
+				year: movie.year,
+				score: movie.score,
+				totalMovies: 1,
+			});
+        // else if year already exists in the array replace the values (with splice) for that year accumulating the current value with the new incoming values    
+		} else {
+            
+            const year = totalFilmsAndScorePerYear[yearIndex].year;
+            let score = totalFilmsAndScorePerYear[yearIndex].score;
+			if (totalFilmsAndScorePerYear[yearIndex].score > 0) {
+                score = totalFilmsAndScorePerYear[yearIndex].score + movie.score;
+            }
+			const count = totalFilmsAndScorePerYear[yearIndex].totalMovies + 1;
+
+            totalFilmsAndScorePerYear.splice(yearIndex, 1, {
+				year: year,
+				score: score,
+				totalMovies: count,
+			});
+
+		}
+	});
+	//return totalFilmsAndScorePerYear;
+
+    // modify the array with map() and calculate the average score per yer
+    const averageScorePerYear = totalFilmsAndScorePerYear.map((year) => {
+        const avgScore = year.score / year.totalMovies
+        return {
+            "year": year.year,
+            "avgScore": avgScore
+        }
+    });
+
+    //return averageScorePerYear;
+
+    // sort the array with the highest average score first and when there is a tie between two years return the oldest year first
+    averageScorePerYear.sort((a, b) => {
+		//nested sorting comparison on avgScore that make a second comparison on year if the average score is the same
+		if (a.avgScore < b.avgScore) {
+			return 1;
+		} else if (a.avgScore > b.avgScore) {
+			return -1;
+		} else {
+			// a.avgScore === b.avgScore
+			if (a.year < b.year) {
+				return -1;
+			} else if (a.year > b.year) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+	});
+	//return averageScorePerYear;
+    const bestYear = averageScorePerYear[0].year;
+    const bestAvgScore = averageScorePerYear[0].avgScore;
+
+    // return the phrase
+    return `The best year was ${bestYear} with an average score of ${bestAvgScore}`;
 }
+console.log(bestYearAvg(newMoviesArr));
