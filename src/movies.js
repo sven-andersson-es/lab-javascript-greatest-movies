@@ -30,7 +30,7 @@
 // How could you "clean" a bit this array and make it unified (without duplicates)?
 
 function getAllDirectors(moviesArray) {
-	const directors = moviesArray.map((movie) => {
+	const directors = moviesArray.map(function(movie) {
 		return movie.director;
 	});
 	return directors;
@@ -38,7 +38,7 @@ function getAllDirectors(moviesArray) {
 
 // Iteration 2: Steven Spielberg. The best? - How many drama movies did STEVEN SPIELBERG direct?
 function howManyMovies(moviesArray) {
-	const spielBergMovies = moviesArray.filter((movie) => {
+	const spielBergMovies = moviesArray.filter(function(movie) {
 		return (
 			movie.director === "Steven Spielberg" && movie.genre.includes("Drama")
 		);
@@ -52,7 +52,7 @@ function scoresAverage(moviesArray) {
 		return 0;
 	}
 
-	const totalScore = moviesArray.reduce((acc, curr) => {
+	const totalScore = moviesArray.reduce(function(acc, curr) {
 		if (curr.score) {
 			return acc + curr.score;
 		} else {
@@ -72,13 +72,13 @@ const movies4 = [
 ];
 
 function dramaMoviesScore(moviesArray) {
-	const dramaMovies = moviesArray.filter((movie) => {
+	const dramaMovies = moviesArray.filter(function(movie) {
 		return movie.genre.includes("Drama");
 	});
 	if (dramaMovies.length === 0) {
 		return 0;
 	}
-	const totalScore = dramaMovies.reduce((acc, curr) => {
+	const totalScore = dramaMovies.reduce(function(acc, curr) {
 		if (curr.score) {
 			return acc + curr.score;
 		} else {
@@ -90,16 +90,62 @@ function dramaMoviesScore(moviesArray) {
 	const scoresAverageTwoDecimals = +scoresAverage.toFixed(2);
 	return scoresAverageTwoDecimals; //no encontramos la solucion
 }
-console.log(dramaMoviesScore(movies4));
+console.log(dramaMoviesScore(movies));
 
 // Iteration 5: Ordering by year - Order by year, ascending (in growing order)
-function orderByYear(moviesArray) {}
+function orderByYear(moviesArray) {
+	
+	const newArray = [...moviesArray];
+	
+	newArray.sort((a, b) => {
+
+		if (a.year === b.year){
+			return a.title.localeCompare(b.title);
+		}
+		return a.year - b.year;
+	});
+	return newArray;
+}
+
+
 
 // Iteration 6: Alphabetic Order - Order by title and print the first 20 titles
-function orderAlphabetically(moviesArray) {}
+function orderAlphabetically(moviesArray) {
+
+	const sortedMovies = [...moviesArray].sort((a, b) => {
+
+ 	return a.title.localeCompare(b.title);
+	});
+
+const titles = sortedMovies.slice(0, 20).map(movie => movie.title);
+return titles;
+}
+
+
+
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes
-function turnHoursToMinutes(moviesArray) {}
+function turnHoursToMinutes(moviesArray) {
+	
+
+	const moviesMinutes = moviesArray.map((movie) => {
+	
+	const HoursToMinuts = +movie.duration[0] * 60; 
+	let minutes = 0;
+
+	if (movie.duration.length === 7){
+		minutes = +movie.duration[3];
+	}
+	
+	else if (movie.duration.length === 8)
+		{ minutes = +(movie.duration[3] + movie.duration[4]);
+	}
+	const duration = HoursToMinuts + minutes;
+	movie.duration = duration;
+	return movie;
+})
+return moviesMinutes;
+}
 
 // BONUS - Iteration 8: Best yearly score average - Best yearly score average
 function bestYearAvg(moviesArray) {}
